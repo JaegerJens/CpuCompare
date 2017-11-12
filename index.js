@@ -9,9 +9,26 @@ async function getCpuList() {
     return list;
 }
 
+function compare(a, b) {
+    if (a < b)
+        return -1;
+    if (a > b)
+        return 1;
+    return 0;
+}
+
+function prepareData(cpuData) {
+    return cpuData
+        .filter(e => e.price > 0)
+        .sort((a, b) => compare(a.price, b.price));
+}
+
 
 function showData(cpuData) {
-    for(let entry of cpuData) {
+    const data = prepareData(cpuData);
+    for(let entry of data) {
+        if (entry.price < 0)
+            continue;
         console.log(`${entry.name}: ${entry.price/100}`);
     }
 }
